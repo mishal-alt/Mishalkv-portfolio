@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #00d2ff;
+  --color-accent-dark: #00a2cc;
+  --color-secondary: #00f2fe;
+  --color-bg-deep: #050505;
+  --color-bg-card: rgba(255, 255, 255, 0.03);
+  --color-border-glass: rgba(255, 255, 255, 0.08);
+
+  --font-sans: 'Outfit', 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: #050505;
+    color: white;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-primary {
+  padding: 0.75rem 1.5rem;
+  background-color: #00d2ff;
+  color: black;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: rgba(0, 210, 255, 0.8);
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.4);
+}
+
+.btn-outline {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(0, 210, 255, 0.5);
+  color: #00d2ff;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-outline:hover {
+  background-color: rgba(0, 210, 255, 0.1);
+  border-color: #00d2ff;
+}
