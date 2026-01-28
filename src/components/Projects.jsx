@@ -15,8 +15,8 @@ const projects = [
             { name: 'Node.js', icon: <SiNodedotjs className="text-[#339933]" /> },
             { name: 'Tailwind', icon: <SiTailwindcss className="text-[#06B6D4]" /> }
         ],
-        live: 'https://solenxt.netlify.app/',
-        github: 'https://github.com/mishal-alt',
+        live: 'https://solenxt.vercel.app/',
+        github: 'https://github.com/mishal-alt/solenxt',
         image: '/images/solenxt-mockup.png'
     },
     {
@@ -28,9 +28,22 @@ const projects = [
             { name: 'Tailwind', icon: <SiTailwindcss className="text-[#06B6D4]" /> },
             { name: 'Framer', icon: <SiJavascript className="text-[#F7DF1E]" /> }
         ],
-        live: 'https://mishal-alt.github.io/',
-        github: 'https://github.com/mishal-alt',
+        live: 'https://mishalkv.netlify.app/',
+        github: 'https://github.com/mishal-alt/Mishalkv-portfolio',
         image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200'
+    },
+    {
+        title: 'Lumina Bites',
+        category: 'Restaurant Experience',
+        description: 'A premium, mobile-first restaurant menu platform designed for seamless QR-code access. Features an elegant UI, dynamic category filtering, and high-performance asset loading.',
+        tech: [
+            { name: 'React', icon: <SiReact className="text-[#61DAFB]" /> },
+            { name: 'Tailwind', icon: <SiTailwindcss className="text-[#06B6D4]" /> },
+            { name: 'JavaScript', icon: <SiJavascript className="text-[#F7DF1E]" /> }
+        ],
+        live: 'https://mishal-alt.github.io/Lumina-Bites-restaurant-menu-/',
+        github: 'https://github.com/mishal-alt/Lumina-Bites-restaurant-menu-',
+        image: '/images/lumina-bites-mockup.png'
     },
     {
         title: 'W3Schools Clone',
