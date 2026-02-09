@@ -1,14 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Send, Copy, Check, MapPin, Phone } from 'lucide-react';
+import { Mail, Send, Copy, Check, MapPin, Phone, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
     const [copied, setCopied] = useState(false);
+    const formRef = useRef();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [status, setStatus] = useState({ type: '', message: '' });
 
     const copyEmail = () => {
         navigator.clipboard.writeText('mishalkvmishal@gmail.com');
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Basic validation
+        const formData = new FormData(formRef.current);
+        const name = formData.get('user_name');
+        const email = formData.get('user_email');
+        const message = formData.get('message');
+
+        if (!name || !email || !message) {
+            setStatus({ type: 'error', message: 'Please fill in all fields.' });
+            return;
+        }
+
+        setIsSubmitting(true);
+        setStatus({ type: '', message: '' });
+
+        try {
+            await emailjs.sendForm(
+                import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_id',
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_id',
+                formRef.current,
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'public_key'
+            );
+
+            setStatus({ type: 'success', message: 'Message sent! I will get back to you soon.' });
+            formRef.current.reset();
+        } catch (error) {
+            console.error('EmailJS Error:', error);
+            setStatus({ type: 'error', message: 'Failed to send message. Please check your connection or try again later.' });
+        } finally {
+            setIsSubmitting(false);
+            // Clear status after 5 seconds
+            setTimeout(() => setStatus({ type: '', message: '' }), 5000);
+        }
     };
 
     return (
@@ -74,12 +115,32 @@ const Contact = () => {
                             viewport={{ once: true }}
                             className="mt-10 lg:mt-0"
                         >
-                            <form className="glass p-6 md:p-10 rounded-3xl space-y-6" onSubmit={(e) => e.preventDefault()}>
+                            <form
+                                ref={formRef}
+                                className="glass p-6 md:p-10 rounded-3xl space-y-6 relative overflow-hidden"
+                                onSubmit={handleSubmit}
+                            >
+                                {status.message && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className={`flex items-center gap-3 p-4 rounded-xl text-sm ${status.type === 'success'
+                                            ? 'bg-green-500/10 text-green-500 border border-green-500/20'
+                                            : 'bg-red-500/10 text-red-500 border border-red-500/20'
+                                            }`}
+                                    >
+                                        {status.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
+                                        {status.message}
+                                    </motion.div>
+                                )}
+
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium text-gray-400">Your Name</label>
                                         <input
                                             type="text"
+                                            name="user_name"
+                                            required
                                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-accent transition-colors"
                                             placeholder="John Doe"
                                         />
@@ -88,6 +149,8 @@ const Contact = () => {
                                         <label className="text-sm font-medium text-gray-400">Your Email</label>
                                         <input
                                             type="email"
+                                            name="user_email"
+                                            required
                                             className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-accent transition-colors"
                                             placeholder="john@example.com"
                                         />
@@ -97,13 +160,28 @@ const Contact = () => {
                                     <label className="text-sm font-medium text-gray-400">Message</label>
                                     <textarea
                                         rows="4"
+                                        name="message"
+                                        required
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-accent transition-colors resize-none"
                                         placeholder="Tell me about your project..."
                                     ></textarea>
                                 </div>
-                                <button className="btn-primary w-full justify-center group">
-                                    Send Message
-                                    <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className={`btn-primary w-full justify-center group ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                >
+                                    {isSubmitting ? (
+                                        <>
+                                            Sending...
+                                            <Loader2 size={18} className="animate-spin" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            Send Message
+                                            <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                        </>
+                                    )}
                                 </button>
                             </form>
                         </motion.div>
