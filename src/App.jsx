@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
+import GithubContributions from './components/GithubContributions';
 import Experience from './components/Experience';
 import Education from './components/Education';
 import AdditionalInfo from './components/AdditionalInfo';
@@ -20,6 +21,7 @@ function App() {
         <About />
         <Skills />
         <Projects />
+        <GithubContributions />
         <Experience />
         <Education />
         <AdditionalInfo />
